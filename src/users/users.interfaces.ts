@@ -5,6 +5,6 @@ export interface nftHoldings {
     tokenIds: string[];
   }[];
   totalBalances: {
-    [contractAddress: string]: number;
+    [contractAddress: string]: string;
   };
 }

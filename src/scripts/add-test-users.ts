@@ -13,7 +13,7 @@ async function bootstrap() {
       username: 'TestUser1',
     },
     {
-      walletAddress: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+      walletAddress: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       username: 'TestUser2',
     },
   ];

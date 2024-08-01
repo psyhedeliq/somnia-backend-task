@@ -13,15 +13,15 @@ export class AirdropService {
     this.provider = new ethers.JsonRpcProvider('http://localhost:8545');
 
     // These addresses will be set after deploying the mock contracts
-    this.mockBAYCAddress = '0x610178dA211FEF7D417bC0e6FeD39F05609AD788'; // TODO: Set this after deployment
-    this.mockApeCoinAddress = '0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e'; // TODO: Set this after deployment
+    this.mockBAYCAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // TODO: Set this after deployment
+    this.mockApeCoinAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; // TODO: Set this after deployment
   }
 
   public async airdrop(walletAddress: string): Promise<boolean> {
     const holdings = await this.userService.getUserHoldings(walletAddress);
 
     // Check if the user holds at least one BAYC NFT
-    if (holdings.totalBalances[this.mockBAYCAddress] > 0) {
+    if (holdings.totalBalances[this.mockBAYCAddress].length > 0) {
       await this.sendAirdrop(walletAddress);
       return true;
     }

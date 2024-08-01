@@ -23,7 +23,7 @@ export class AuthService {
       console.log('Message:', message);
       console.log('Signature:', signature);
 
-      const parsedMessage = JSON.parse(message);
+      const parsedMessage = { contents: message };
       const recoveredAddress = ethers.verifyTypedData(
         domain,
         types,

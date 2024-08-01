@@ -15,7 +15,7 @@ export class UserService {
     // Initialize the provider with the local Hardhat network
     this.provider = new ethers.JsonRpcProvider('http://localhost:8545');
     // This address will be set after deploying the mock contract
-    this.mockBAYCAddress = '0x5fbdb2315678afecb367f032d93f642f64180aa3'; // TODO: Set this after deployment
+    this.mockBAYCAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // TODO: Set this after deployment
   }
 
   public async getUser(id: string): Promise<User> {
@@ -63,20 +63,18 @@ export class UserService {
   private async getNFTBalance(
     contractAddress: string,
     walletAddress: string,
-  ): Promise<number> {
+  ): Promise<string> {
     const abi = ['function balanceOf(address owner) view returns (uint256)'];
     const contract = new ethers.Contract(contractAddress, abi, this.provider);
     const balance = await contract.balanceOf(walletAddress);
-    return balance.toNumber();
+    return balance.toString();
   }
 
   private async getTokenIds(
     contractAddress: string,
     walletAddress: string,
   ): Promise<string[]> {
-    // For simplicity, we'll just return an array with a single token ID
-    // In a real scenario, you'd need to implement a way to get all token IDs owned by the wallet
     const balance = await this.getNFTBalance(contractAddress, walletAddress);
-    return balance > 0 ? ['1'] : [];
+    return parseInt(balance) > 0 ? ['1'] : [];
   }
 }

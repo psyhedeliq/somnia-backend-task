@@ -42,11 +42,11 @@ describe('AuthService', () => {
     userService.getUserByWalletAddress.mockResolvedValue(mockUser);
 
     const result = await service.verifySignature(
-      '0x510b43199699994167271a76d28c21b996e7679d7eec51245328502b3e8df26b719f7672f1cf521f87d97f7b6ebb6585c7794af38863954f56302d05986fe5291b',
+      '0xd80bf614bb891b6ac42c03bfcbaff07f0eee089705561857fd3c7b42e8654349614b702070cc71ebf46d31ea954d0b4ef25f05ec325e45073e566db426f7d3601c',
       'Enter your MML space here!',
     );
 
-    expect(result).toBe(mockAddress);
+    expect(result.toLowerCase()).toBe(mockAddress.toLowerCase());
   });
 
   it('should throw UnauthorizedException for invalid signature', async () => {
