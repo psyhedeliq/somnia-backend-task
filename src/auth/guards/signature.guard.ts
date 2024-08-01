@@ -15,6 +15,9 @@ export class SignatureGuard implements CanActivate {
     const signature = request.headers['x-signature'];
     const message = request.headers['x-message'];
 
+    console.log('Received signature:', signature);
+    console.log('Received message:', message);
+
     if (!signature || !message) {
       throw new UnauthorizedException('Missing signature or message');
     }
@@ -27,6 +30,7 @@ export class SignatureGuard implements CanActivate {
       request.user = { walletAddress: recoveredAddress };
       return true;
     } catch (error) {
+      console.error('Guard error:', error);
       throw new UnauthorizedException('Invalid signature');
     }
   }

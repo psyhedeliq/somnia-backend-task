@@ -4,15 +4,24 @@ import { UserService } from '../users/users.service';
 
 @Injectable()
 export class AirdropService {
-  constructor(private userService: UserService) {}
+  private provider: ethers.JsonRpcProvider;
+  private mockBAYCAddress: string;
+  private mockApeCoinAddress: string;
+
+  constructor(private userService: UserService) {
+    // Initialize the provider with the local Hardhat network
+    this.provider = new ethers.JsonRpcProvider('http://localhost:8545');
+
+    // These addresses will be set after deploying the mock contracts
+    this.mockBAYCAddress = '0x610178dA211FEF7D417bC0e6FeD39F05609AD788'; // TODO: Set this after deployment
+    this.mockApeCoinAddress = '0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e'; // TODO: Set this after deployment
+  }
 
   public async airdrop(walletAddress: string): Promise<boolean> {
-    // Get the user's NFT holdings
     const holdings = await this.userService.getUserHoldings(walletAddress);
-    const bapyc = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D';
 
     // Check if the user holds at least one BAYC NFT
-    if (holdings.totalBalances[bapyc] > 0) {
+    if (holdings.totalBalances[this.mockBAYCAddress] > 0) {
       await this.sendAirdrop(walletAddress);
       return true;
     }
@@ -21,23 +30,18 @@ export class AirdropService {
   }
 
   private async sendAirdrop(toAddress: string): Promise<void> {
-    // Create an Ethereum provider (replace with your Infura project ID)
-    const provider = new ethers.JsonRpcProvider(
-      'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID',
-    );
     // Use a wallet to sign transactions (replace with your private key)
     const privateKey =
       '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
-    const wallet = new ethers.Wallet(privateKey, provider);
+    const wallet = new ethers.Wallet(privateKey, this.provider);
 
-    // ApeCoin contract address
-    const apeCoinAddress = '0x4d224452801ACEd8B2F0aebE155379bb5D594381';
     // ABI for the transfer function
     const abi = [
       'function transfer(address to, uint256 amount) returns (bool)',
     ];
+
     // Create a contract instance
-    const contract = new ethers.Contract(apeCoinAddress, abi, wallet);
+    const contract = new ethers.Contract(this.mockApeCoinAddress, abi, wallet);
 
     // Amount to airdrop (100 ApeCoin with 18 decimals)
     const amount = ethers.parseUnits('100', 18);

@@ -10,7 +10,7 @@ export class AuthService {
     const domain = {
       name: 'Somnia Network',
       version: '1',
-      chainId: 11155111,
+      chainId: 31337,
     };
 
     const types = {
@@ -18,12 +18,20 @@ export class AuthService {
     };
 
     try {
+      console.log('Domain:', domain);
+      console.log('Types:', types);
+      console.log('Message:', message);
+      console.log('Signature:', signature);
+
+      const parsedMessage = JSON.parse(message);
       const recoveredAddress = ethers.verifyTypedData(
         domain,
         types,
-        { contents: message },
+        parsedMessage,
         signature,
       );
+
+      console.log('Recovered address:', recoveredAddress);
 
       const user =
         await this.userService.getUserByWalletAddress(recoveredAddress);
@@ -34,6 +42,7 @@ export class AuthService {
 
       return recoveredAddress;
     } catch (error) {
+      console.error('Signature verification error:', error);
       throw new UnauthorizedException('Invalid signature');
     }
   }
