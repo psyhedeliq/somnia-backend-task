@@ -54,3 +54,17 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Hardhat files
+hardhat/cache
+hardhat/node_modules
+hardhat/artifacts
+hardhat/typechain
+hardhat/typechain-types
+
+# Coverage directory used by tools like istanbul
+hardhat/coverage
+hardhat/coverage.json
+
+# Ignore Hardhat's default deployment folder
+hardhat/deployments
