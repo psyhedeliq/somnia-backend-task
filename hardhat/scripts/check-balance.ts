@@ -1,16 +1,32 @@
 import { ethers } from 'hardhat';
-import { MockApeCoin } from '../typechain-types';
 
 async function main() {
-  const [owner] = await ethers.getSigners();
+  try {
+    const [owner] = await ethers.getSigners();
 
-  const MockApeCoin = await ethers.getContractFactory('MockApeCoin');
-  const mockApeCoin = (await MockApeCoin.attach(
-    '0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e',
-  )) as MockApeCoin;
+    // Deploy MockApeCoin
+    const MockApeCoin = await ethers.getContractFactory('MockApeCoin');
+    const mockApeCoin = await MockApeCoin.deploy();
+    await mockApeCoin.waitForDeployment();
 
-  const balance = await mockApeCoin.balanceOf(owner.address);
-  console.log('User ApeCoin balance:', ethers.formatEther(balance));
+    const contractAddress = await mockApeCoin.getAddress();
+    console.log('MockApeCoin deployed to:', contractAddress);
+    console.log('Owner address:', owner.address);
+
+    // Check initial balance
+    let balance = await mockApeCoin.balanceOf(owner.address);
+    console.log('Initial ApeCoin balance:', ethers.formatEther(balance));
+
+    // Mint additional tokens to the owner
+    const mintAmount = ethers.parseEther('1000');
+    await mockApeCoin.mint(owner.address, mintAmount);
+
+    // Check updated balance
+    balance = await mockApeCoin.balanceOf(owner.address);
+    console.log('Updated ApeCoin balance:', ethers.formatEther(balance));
+  } catch (error) {
+    console.error('Error details:', error);
+  }
 }
 
 main()
