@@ -1,12 +1,20 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Post, UseGuards, Req } from '@nestjs/common';
 import { AirdropService } from './airdrop.service';
+import { SignatureGuard } from '../auth/guards/signature.guard';
+import { RequestWithUser } from './airdrop.interfaces';
 
 @Controller('airdrop')
 export class AirdropController {
-    constructor(private readonly airdropService: AirdropService) {}
+  constructor(private readonly airdropService: AirdropService) {}
 
-    @Get("/:id")
-    airdrop(@Param('id') id: string): Promise<void> {
-        return this.airdropService.airdrop(id);
-    }
+  @Post()
+  @UseGuards(SignatureGuard)
+  async airdrop(
+    @Req() request: RequestWithUser,
+  ): Promise<{ success: boolean }> {
+    const success = await this.airdropService.airdrop(
+      request.user.walletAddress,
+    );
+    return { success };
+  }
 }
