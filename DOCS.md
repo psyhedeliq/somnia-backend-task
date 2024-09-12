@@ -1,5 +1,7 @@
 == npx hardhat compile ==
 
+npx hardhat node
+
 npx hardhat run scripts/deploy.ts --network localhost
 
 npx hardhat run scripts/setup-test-data.ts --network localhost

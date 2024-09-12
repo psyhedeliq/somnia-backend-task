@@ -9,7 +9,7 @@ export class User {
   userName: string;
 
   @Column({ nullable: true, type: 'varchar' })
-  email: string;
+  email: string | null;
 
   @Index()
   @Column({ unique: true, type: 'varchar', name: 'wallet_address' })

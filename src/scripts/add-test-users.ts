@@ -11,10 +11,17 @@ async function bootstrap() {
     {
       walletAddress: '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
       username: 'TestUser1',
+      email: 'testuser1@example.com',
     },
     {
       walletAddress: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       username: 'TestUser2',
+      email: 'testuser2@example.com',
+    },
+    {
+      walletAddress: '0xACa1BB9FC40C889CE6cBa78F029021DeFA5951ec',
+      username: 'TestUser3',
+      email: 'testuser3@example.com',
     },
   ];
 
@@ -27,7 +34,11 @@ async function bootstrap() {
         `User with wallet address ${userData.walletAddress} already exists.`,
       );
     } else {
-      await userService.createUser(userData);
+      await userService.createUser({
+        walletAddress: userData.walletAddress,
+        userName: userData.username,
+        email: userData.email,
+      });
       console.log(`Created user with wallet address ${userData.walletAddress}`);
     }
   }

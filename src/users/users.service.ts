@@ -23,12 +23,16 @@ export class UserService {
   }
 
   public async getUserByWalletAddress(walletAddress: string): Promise<User> {
-    return this.userRepository.findOneBy({ walletAddress });
+    console.log('Looking up user with wallet address:', walletAddress);
+    const user = await this.userRepository.findOneBy({ walletAddress });
+    console.log('User lookup result:', user);
+    return user;
   }
 
   public async createUser(userData: {
     walletAddress: string;
-    username: string;
+    userName: string;
+    email?: string | null;
   }): Promise<User> {
     const newUser = this.userRepository.create(userData);
     return this.userRepository.save(newUser);

@@ -12,6 +12,7 @@ export class AirdropController {
   async airdrop(
     @Req() request: RequestWithUser,
   ): Promise<{ success: boolean }> {
+    console.log('Airdrop request:', request.user);
     const success = await this.airdropService.airdrop(
       request.user.walletAddress,
     );

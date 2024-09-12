@@ -35,6 +35,7 @@ export class AuthService {
 
       const user =
         await this.userService.getUserByWalletAddress(recoveredAddress);
+      console.log('User lookup result:', user);
 
       if (!user) {
         throw new UnauthorizedException('User not found');

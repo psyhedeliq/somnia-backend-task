@@ -17,6 +17,7 @@ export class SignatureGuard implements CanActivate {
 
     console.log('Received signature:', signature);
     console.log('Received message:', message);
+    console.log('Request body:', request.body);
 
     if (!signature || !message) {
       throw new UnauthorizedException('Missing signature or message');
@@ -27,6 +28,7 @@ export class SignatureGuard implements CanActivate {
         signature,
         message,
       );
+      console.log('Recovered address:', recoveredAddress);
       request.user = { walletAddress: recoveredAddress };
       return true;
     } catch (error) {
