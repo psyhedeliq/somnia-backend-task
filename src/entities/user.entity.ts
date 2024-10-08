@@ -5,14 +5,14 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'user_name',type: 'varchar' })
+  @Column({ name: 'user_name', type: 'varchar' })
   userName: string;
 
   @Column({ nullable: true, type: 'varchar' })
-  email: string;
+  email: string | null;
 
   @Index()
-  @Column({ unique: true, type: 'varchar', name: 'wallet_address'})
+  @Column({ unique: true, type: 'varchar', name: 'wallet_address' })
   walletAddress: string;
 
   @Column({ default: 0 })
